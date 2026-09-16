@@ -1,56 +1,115 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>陳建璃 健康 Dashboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>body{background:#0f172a;color:#e2e8f0}.card{background:#1e293b;border:1px solid #334155}th,td{border-bottom:1px solid #334155;padding:.5rem .6rem;text-align:left}.good{color:#34d399}.warn{color:#fbbf24}.bad{color:#f87171}input{background:#0f172a;border:1px solid #475569;color:#e2e8f0}</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>陳建璃 健康 Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="data.js?v=20260917f"></script>
+  <style>
+    body{background:#0f172a;color:#e2e8f0}
+    .card{background:#1e293b;border:1px solid #334155}
+    .good{color:#34d399}.warn{color:#fbbf24}.bad{color:#f87171}
+    input,select,textarea{background:#0f172a;border:1px solid #475569;color:#e2e8f0;border-radius:.5rem;padding:.5rem .75rem;width:100%}
+    .nav-active{background:rgba(20,184,166,.2);color:#5eead4}
+    table{border-collapse:collapse} th,td{border-bottom:1px solid #334155;padding:.5rem .6rem}
+    th{color:#94a3b8;font-weight:500;text-align:left}
+    .photo-thumb{width:64px;height:64px;object-fit:cover;border-radius:.5rem}
+  </style>
 </head>
-<body class="min-h-screen p-4">
-<div id="login" class="fixed inset-0 flex items-center justify-center bg-slate-950">
-  <div class="card rounded-2xl p-8 w-full max-w-sm">
-    <h1 class="text-xl font-bold text-center mb-4">健康 Dashboard</h1>
-    <input id="pwd" type="password" placeholder="通行碼" class="w-full mb-4 p-3 rounded-lg"/>
-    <button onclick="go()" class="w-full bg-teal-600 py-3 rounded-lg text-white">進入</button>
+<body class="min-h-screen">
+<div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/95">
+  <div class="card rounded-2xl p-8 w-full max-w-sm shadow-2xl">
+    <h1 class="text-2xl font-bold text-center mb-2">健康 Dashboard</h1>
+    <p class="text-slate-400 text-center text-sm mb-6">陳建璃 個人健康數據中心</p>
+    <input id="pwdInput" type="password" placeholder="輸入通行碼" class="w-full rounded-lg px-4 py-3 mb-4" />
+    <button onclick="tryLogin()" class="w-full bg-teal-600 text-white font-medium py-3 rounded-lg">進入</button>
   </div>
 </div>
-<div id="app" class="hidden max-w-3xl mx-auto py-6">
-  <h1 class="text-xl font-bold mb-1">陳建璃 · 健康 Dashboard</h1>
-  <p class="text-slate-400 text-sm mb-6">2026/09/16 Statin後血脂已更新 · GitHub Pages</p>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-    <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">LDL</p><p class="text-2xl font-bold good">87</p></div>
-    <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">HDL</p><p class="text-2xl font-bold good">65</p></div>
-    <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">TG</p><p class="text-2xl font-bold good">63</p></div>
-    <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">HbA1c</p><p class="text-2xl font-bold">5.3%</p></div>
-  </div>
-  <div class="card rounded-xl overflow-x-auto">
-    <table class="w-full text-sm">
-      <thead><tr><th>項目</th><th>2025/04</th><th>2026/04</th><th>目前 9/16</th></tr></thead>
-      <tbody>
-        <tr><td>體重</td><td>78.5</td><td class="warn">80.6</td><td class="good">70.4</td></tr>
-        <tr><td>體脂</td><td>23.1%</td><td class="warn">23.6%</td><td class="good">16.6%</td></tr>
-        <tr><td>血壓</td><td>135/86</td><td class="bad">152/112</td><td class="good">113/67</td></tr>
-        <tr><td>LDL</td><td>161</td><td class="bad">185</td><td class="good">87</td></tr>
-        <tr><td>HDL</td><td>41</td><td>48</td><td class="good">65</td></tr>
-        <tr><td>TG</td><td>130</td><td class="warn">204</td><td class="good">63</td></tr>
-        <tr><td>TC</td><td>220</td><td class="warn">262</td><td class="good">165</td></tr>
-        <tr><td>HbA1c</td><td>—</td><td>5.2%</td><td>5.3%</td></tr>
-        <tr><td>HOMA-IR</td><td>—</td><td class="bad">3.3</td><td>—</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p class="text-xs text-slate-500 mt-4">NCV/EMG、QST 正常。Pitavastatin 4 mg 自 2026/06/03。</p>
+<div id="app" class="hidden">
+  <header class="border-b border-slate-700 bg-slate-900/80 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
+      <div><h1 class="text-xl font-bold">陳建璃 · 健康 Dashboard</h1>
+      <p class="text-xs text-slate-400">拍照飲食 · 運動 · 評估 · <span id="lastUpdate"></span></p></div>
+      <div class="flex flex-wrap gap-2 text-sm">
+        <button onclick="showSection('dashboard')" id="btn-dashboard" class="nav-btn px-3 py-1.5 rounded-lg nav-active">總覽</button>
+        <button onclick="showSection('photo')" id="btn-photo" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-700">拍照飲食</button>
+        <button onclick="showSection('assess')" id="btn-assess" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-700">文獻評估</button>
+        <button onclick="showSection('exercise')" id="btn-exercise" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-700">運動</button>
+        <button onclick="showSection('nutrition')" id="btn-nutrition" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-700">飲食</button>
+        <button onclick="showSection('labs')" id="btn-labs" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-700">健檢</button>
+        <button onclick="logout()" class="px-3 py-1.5 rounded-lg text-slate-400">登出</button>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <section id="section-dashboard">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">最新血糖</p><p class="text-2xl font-bold" id="kpi-glucose">95</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">體重</p><p class="text-2xl font-bold" id="kpi-weight">70.4</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">體脂</p><p class="text-2xl font-bold good" id="kpi-bf">16.6%</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">今日步數</p><p class="text-2xl font-bold" id="kpi-steps">—</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">活動熱量</p><p class="text-2xl font-bold" id="kpi-ae">—</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">今日拍照餐</p><p class="text-2xl font-bold" id="kpi-photo">0</p></div>
+      </div>
+      <div class="card rounded-xl p-5 mb-4"><p class="text-sm text-slate-300" id="assess-summary">—</p></div>
+    </section>
+    <section id="section-photo" class="hidden">
+      <h2 class="text-lg font-semibold mb-2">拍照飲食紀錄</h2>
+      <div class="card rounded-xl p-5 mb-6 space-y-3">
+        <input type="datetime-local" id="foodTime" />
+        <input type="text" id="foodName" placeholder="食物名稱" />
+        <div class="grid grid-cols-2 gap-2">
+          <input type="number" id="foodKcal" placeholder="kcal" />
+          <input type="number" id="foodCarb" placeholder="碳水 g" />
+          <input type="number" id="foodPro" placeholder="蛋白 g" />
+          <input type="number" id="foodFat" placeholder="脂肪 g" />
+        </div>
+        <select id="foodStyle"><option>家常</option><option>外食</option></select>
+        <input type="file" accept="image/*" id="photoInput" onchange="onPhotoSelected(event)" />
+        <div id="photoPreviewWrap" class="hidden"><img id="photoPreview" class="max-h-56" /></div>
+        <button onclick="saveFoodLog()" class="w-full bg-teal-600 text-white py-3 rounded-lg">儲存這一餐</button>
+      </div>
+      <div id="photoLogList"></div>
+    </section>
+    <section id="section-assess" class="hidden">
+      <h2 class="text-lg font-semibold mb-2">文獻導向健康評估</h2>
+      <div class="card rounded-xl p-5 mb-4"><p class="text-sm" id="assess-full-summary"></p></div>
+      <div id="assess-items" class="space-y-3 mb-6"></div>
+      <ul id="assess-actions" class="text-sm list-disc list-inside"></ul>
+      <p class="text-xs text-slate-500 mt-3" id="assess-refs"></p>
+    </section>
+    <section id="section-exercise" class="hidden">
+      <h2 class="text-lg font-semibold mb-4">運動統計</h2>
+      <p class="text-slate-400">跑步 35分 · 蛙式 · 每週 3–4 次</p>
+      <div id="workoutList" class="card rounded-xl p-4 mt-4"></div>
+    </section>
+    <section id="section-nutrition" class="hidden">
+      <h2 class="text-lg font-semibold mb-4">飲食熱量</h2>
+      <p class="text-slate-400 text-sm">智抗糖日食明細可再從 Gmail 匯入。</p>
+      <table class="w-full text-sm mt-3"><thead><tr><th>日期</th><th>kcal</th><th>碳水</th><th>蛋白</th><th>脂肪</th></tr></thead><tbody id="nutritionBody"></tbody></table>
+    </section>
+    <section id="section-labs" class="hidden">
+      <h2 class="text-lg font-semibold mb-4">健檢比對</h2>
+      <div class="card rounded-xl overflow-x-auto">
+        <table class="w-full text-sm min-w-[480px]">
+          <thead><tr><th>項目</th><th>2025/04</th><th>2026/04</th><th>目前</th></tr></thead>
+          <tbody>
+            <tr><td>體重</td><td>78.5</td><td class="warn">80.6</td><td class="good">70.4</td></tr>
+            <tr><td>體脂</td><td>23.1%</td><td class="warn">23.6%</td><td class="good">16.6%</td></tr>
+            <tr><td>血壓</td><td>135/86</td><td class="bad">152/112</td><td class="good">113/67</td></tr>
+            <tr><td>LDL</td><td>161</td><td class="bad">185</td><td class="good">87</td></tr>
+            <tr><td>HDL</td><td>41</td><td>48</td><td class="good">65</td></tr>
+            <tr><td>TG</td><td>130</td><td class="warn">204</td><td class="good">63</td></tr>
+            <tr><td>TC</td><td>220</td><td class="warn">262</td><td class="good">165</td></tr>
+            <tr><td>HbA1c</td><td>—</td><td>5.2%</td><td>5.3%</td></tr>
+            <tr><td>HOMA-IR</td><td>—</td><td class="bad">3.3</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 </div>
-<script>
-function go(){
-  if(document.getElementById('pwd').value==='8261'||localStorage.getItem('hd_auth')==='1'){
-    localStorage.setItem('hd_auth','1');
-    document.getElementById('login').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-  } else alert('通行碼錯誤');
-}
-if(localStorage.getItem('hd_auth')==='1') go();
-document.getElementById('pwd').addEventListener('keydown',e=>{if(e.key==='Enter')go()});
-</script>
+<script src="app.js?v=20260917f"></script>
 </body></html>
