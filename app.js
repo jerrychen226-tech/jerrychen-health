@@ -41,8 +41,7 @@ function saveFoodLog(){
   const logs=getPhotoLogs();
   logs.unshift({id:Date.now(),time:document.getElementById('foodTime').value||new Date().toISOString(),name,style:document.getElementById('foodStyle').value,kcal:parseFloat(document.getElementById('foodKcal').value)||0,carb:parseFloat(document.getElementById('foodCarb').value)||0,protein:parseFloat(document.getElementById('foodPro').value)||0,fat:parseFloat(document.getElementById('foodFat').value)||0,photo:currentPhotoData||null});
   localStorage.setItem(PHOTO_KEY,JSON.stringify(logs.slice(0,80)));
-  alert('已儲存');
-  renderPhotoLogs();
+  alert('已儲存'); renderPhotoLogs();
 }
 function renderPhotoLogs(){
   const box=document.getElementById('photoLogList'); if(!box) return;
@@ -53,6 +52,7 @@ function boot(){
   if(IOS.weight) document.getElementById('kpi-weight').textContent=IOS.weight;
   if(IOS.bodyfat) document.getElementById('kpi-bf').textContent=IOS.bodyfat+'%';
   if(IOS.glucoseLatest) document.getElementById('kpi-glucose').textContent=IOS.glucoseLatest;
+  if(IOS.stepsToday) document.getElementById('kpi-steps').textContent=IOS.stepsToday;
   if(AS.summary){
     const s1=document.getElementById('assess-summary'); if(s1) s1.textContent=AS.summary;
     const s2=document.getElementById('assess-full-summary'); if(s2) s2.textContent=AS.summary;
@@ -62,6 +62,10 @@ function boot(){
   const al=document.getElementById('assess-actions');
   if(al&&AS.actions) al.innerHTML=AS.actions.map(a=>'<li>'+a+'</li>').join('');
   if(AS.refs){const r=document.getElementById('assess-refs'); if(r) r.textContent=AS.refs}
+  const wl=document.getElementById('workoutList');
+  if(wl) wl.innerHTML=(IOS.workouts||[]).map(w=>'<div class="text-sm py-1">'+(w.d||w.date||'')+' · '+(w.ex||w.type||'')+'</div>').join('')||'—';
+  const nb=document.getElementById('nutritionBody');
+  if(nb) nb.innerHTML=(NUT||[]).map(n=>'<tr><td>'+String(n.date).slice(5)+'</td><td>'+n.kcal+'</td><td>'+n.carb+'</td><td>'+n.protein+'</td><td>'+n.fat+'</td></tr>').join('');
   renderPhotoLogs();
 }
 document.getElementById('pwdInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin()});
