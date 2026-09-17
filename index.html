@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>陳建璃 健康 Dashboard</title>
+  <title>陳建璋 健康 Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="data.js?v=20260917g"></script>
+  <script src="data.js?v=20260917h"></script>
   <style>
     body{background:#0f172a;color:#e2e8f0}
     .card{background:#1e293b;border:1px solid #334155}
@@ -15,14 +15,13 @@
     .nav-active{background:rgba(20,184,166,.2);color:#5eead4}
     table{border-collapse:collapse} th,td{border-bottom:1px solid #334155;padding:.5rem .6rem}
     th{color:#94a3b8;font-weight:500;text-align:left}
-    .photo-thumb{width:64px;height:64px;object-fit:cover;border-radius:.5rem}
   </style>
 </head>
 <body class="min-h-screen">
 <div id="loginOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/95">
   <div class="card rounded-2xl p-8 w-full max-w-sm shadow-2xl">
     <h1 class="text-2xl font-bold text-center mb-2">健康 Dashboard</h1>
-    <p class="text-slate-400 text-center text-sm mb-6">陳建璃 個人健康數據中心</p>
+    <p class="text-slate-400 text-center text-sm mb-6">陳建璋 個人健康數據中心</p>
     <input id="pwdInput" type="password" placeholder="輸入通行碼" class="w-full rounded-lg px-4 py-3 mb-4" />
     <button onclick="tryLogin()" class="w-full bg-teal-600 text-white font-medium py-3 rounded-lg">進入</button>
   </div>
@@ -30,7 +29,7 @@
 <div id="app" class="hidden">
   <header class="border-b border-slate-700 bg-slate-900/80 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
-      <div><h1 class="text-xl font-bold">陳建璃 · 健康 Dashboard</h1>
+      <div><h1 class="text-xl font-bold">陳建璋 · 健康 Dashboard</h1>
       <p class="text-xs text-slate-400">拍照飲食 · 運動 · 評估 · <span id="lastUpdate"></span></p></div>
       <div class="flex flex-wrap gap-2 text-sm">
         <button onclick="showSection('dashboard')" id="btn-dashboard" class="nav-btn px-3 py-1.5 rounded-lg nav-active">總覽</button>
@@ -87,7 +86,6 @@
     </section>
     <section id="section-nutrition" class="hidden">
       <h2 class="text-lg font-semibold mb-4">飲食熱量</h2>
-      <p class="text-slate-400 text-sm">智抗糖日食明細可再從 Gmail 匯入。</p>
       <table class="w-full text-sm mt-3"><thead><tr><th>日期</th><th>kcal</th><th>碳水</th><th>蛋白</th><th>脂肪</th></tr></thead><tbody id="nutritionBody"></tbody></table>
     </section>
     <section id="section-labs" class="hidden">
@@ -111,5 +109,5 @@
     </section>
   </main>
 </div>
-<script src="app.js?v=20260917g"></script>
+<script src="app.js?v=20260917h"></script>
 </body></html>
