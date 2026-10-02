@@ -6,9 +6,10 @@
   <title>陳建璋 健康 Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="data.js?v=20260923d"></script>
-  <script src="nutrition.js?v=20260923d"></script>
-  <script src="workouts.js?v=20260923d"></script>
+  <script src="data.js?v=20261002a"></script>
+  <script src="h2s_202609.js?v=20261002a"></script>
+  <script src="nutrition.js?v=20261002a"></script>
+  <script src="workouts.js?v=20261002a"></script>
   <style>
     body{background:#0f172a;color:#e2e8f0}
     .card{background:#1e293b;border:1px solid #334155}
@@ -32,7 +33,7 @@
   <header class="border-b border-slate-700 bg-slate-900/80 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
       <div><h1 class="text-xl font-bold">陳建璋 · 健康 Dashboard</h1>
-      <p class="text-xs text-slate-400">已加 5/20 立柏 · <span id="lastUpdate"></span></p></div>
+      <p class="text-xs text-slate-400">智抗糖 2026/09 月報已匯入 · <span id="lastUpdate"></span></p></div>
       <div class="flex flex-wrap gap-2 text-sm">
         <button onclick="showSection('dashboard')" id="btn-dashboard" class="nav-btn px-3 py-1.5 rounded-lg nav-active">總覽</button>
         <button onclick="showSection('photo')" id="btn-photo" class="nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-700">拍照飲食</button>
@@ -47,12 +48,31 @@
   <main class="max-w-7xl mx-auto px-4 py-6">
     <section id="section-dashboard">
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">最新血糖</p><p class="text-2xl font-bold" id="kpi-glucose">98</p></div>
-        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">體重</p><p class="text-2xl font-bold" id="kpi-weight">71.2</p></div>
-        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">體脂</p><p class="text-2xl font-bold good" id="kpi-bf">17.1%</p></div>
-        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">今日步數</p><p class="text-2xl font-bold" id="kpi-steps">4166</p></div>
-        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">血壓</p><p class="text-2xl font-bold" id="kpi-ae">124/74</p></div>
-        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">今日拍照餐</p><p class="text-2xl font-bold" id="kpi-photo">0</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">9月均血糖</p><p class="text-2xl font-bold good" id="kpi-glucose">103</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">最新體重</p><p class="text-2xl font-bold" id="kpi-weight">70.6</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">BMI</p><p class="text-2xl font-bold good" id="kpi-bf">23.2</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">9月均步數</p><p class="text-2xl font-bold" id="kpi-steps">6192</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">9月均血壓</p><p class="text-2xl font-bold good" id="kpi-ae">112/70</p></div>
+        <div class="card rounded-xl p-4"><p class="text-xs text-slate-400">9月均熱量</p><p class="text-2xl font-bold" id="kpi-photo">1964</p></div>
+      </div>
+      <div class="card rounded-xl p-5 mb-4">
+        <h2 class="text-base font-semibold mb-2">智抗糖 2026年9月月報</h2>
+        <p class="text-sm text-slate-300 mb-3">來源：2026/10/02 信件附件。血糖 45 次、100% 在目標內。體脂月報只寫下降，沒有百分比。</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm min-w-[520px]">
+            <thead><tr><th>項目</th><th>9月</th><th>較 8 月</th></tr></thead>
+            <tbody>
+              <tr><td>平均血糖</td><td class="good">103 mg/dL</td><td>-5</td></tr>
+              <tr><td>晨起 / 就寝 / 午餐後</td><td>99 / 98 / 111</td><td>8月 101 / 111 / 108</td></tr>
+              <tr><td>平均血壓</td><td class="good">112/70</td><td>約 -2</td></tr>
+              <tr><td>最新體重 / BMI</td><td>70.6 kg / 23.2</td><td>體重 +0.6 kg</td></tr>
+              <tr><td>平均熱量</td><td>1,964 kcal（27 日）</td><td>-236</td></tr>
+              <tr><td>碳水 / 蛋白 / 脂肪</td><td>130 / 129 / 101 g</td><td>纖維 20.7 g，鉢 2,736 mg</td></tr>
+              <tr><td>步數</td><td>6,192（達標 9 天）</td><td>-707</td></tr>
+              <tr><td>運動</td><td>153 分/週</td><td>游泳 175、慢跑 420、走路 15 分</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="card rounded-xl p-5 mb-4"><p class="text-sm text-slate-300" id="assess-summary">—</p></div>
     </section>
@@ -123,5 +143,5 @@
     </section>
   </main>
 </div>
-<script src="app.js?v=20260923d"></script>
+<script src="app.js?v=20261002a"></script>
 </body></html>
