@@ -1,5 +1,6 @@
 const PASSWORD='8261';
 const KB=window.__KB__||{}, IOS=window.__IOS__||{}, NUT=window.__NUTRITION__||[], AS=window.__ASSESS__||{};
+const H2S=window.__H2S_SEP__||null;
 const PHOTO_KEY='hd_photo_logs';
 let currentPhotoData=null;
 function tryLogin(){
@@ -49,10 +50,19 @@ function renderPhotoLogs(){
   box.innerHTML=logs.length?logs.map(l=>'<div class="card rounded-xl p-4 mb-2"><p class="font-medium">'+l.name+'</p><p class="text-sm">'+l.kcal+' kcal</p></div>').join(''):'<p class="text-slate-500 text-sm">尚無紀錄</p>';
 }
 function boot(){
-  if(IOS.weight) document.getElementById('kpi-weight').textContent=IOS.weight;
-  if(IOS.bodyfat) document.getElementById('kpi-bf').textContent=IOS.bodyfat+'%';
-  if(IOS.glucoseLatest) document.getElementById('kpi-glucose').textContent=IOS.glucoseLatest;
-  if(IOS.stepsToday) document.getElementById('kpi-steps').textContent=IOS.stepsToday;
+  if(H2S){
+    const g=document.getElementById('kpi-glucose'); if(g) g.textContent=H2S.glucoseAvg;
+    const w=document.getElementById('kpi-weight'); if(w) w.textContent=H2S.weightLatest;
+    const b=document.getElementById('kpi-bf'); if(b) b.textContent=H2S.bmi;
+    const s=document.getElementById('kpi-steps'); if(s) s.textContent=H2S.stepsAvg;
+    const bp=document.getElementById('kpi-ae'); if(bp) bp.textContent=H2S.bpAvg;
+    const k=document.getElementById('kpi-photo'); if(k) k.textContent=H2S.kcalAvg;
+  } else {
+    if(IOS.weight) document.getElementById('kpi-weight').textContent=IOS.weight;
+    if(IOS.bodyfat) document.getElementById('kpi-bf').textContent=IOS.bodyfat+'%';
+    if(IOS.glucoseLatest) document.getElementById('kpi-glucose').textContent=IOS.glucoseLatest;
+    if(IOS.stepsToday) document.getElementById('kpi-steps').textContent=IOS.stepsToday;
+  }
   if(AS.summary){
     const s1=document.getElementById('assess-summary'); if(s1) s1.textContent=AS.summary;
     const s2=document.getElementById('assess-full-summary'); if(s2) s2.textContent=AS.summary;
